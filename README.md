@@ -16,7 +16,8 @@
 
 - 项目主版本更新的同时必须更新go.mod文件，不然go module无法正确处理
 
-## Go的make和new
+## Go的两种变量内存分配
+### make和new
 看起来二者没有什么区别，都在堆上分配内存，但是它们的行为不同，适用于不同的类型
 
 - new(T) 为每个新的类型T分配一片内存，初始化为 0 并且返回类型为*T的内存地址：这种方法 返回一个指向类型为 T，值为 0 的地址的指针，**它适用于值类型如数组和结构体**；它相当于 &T{}
@@ -24,9 +25,9 @@
 ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/images/7.3_fig7.3.png)
 - 具体来说最大区别就是new返回一个数组切片类型的指针，make返回一个数组切片变量
 
-## 一些疑问
-1. 关于结构体，用&T{}是最佳实践吗，&T{}相比:=T{}要多一个指针大小的内存分配，具体如下图：
-	使用 new 初始化：
+### new的语法糖--字面量初始化 
+- 使用 new 初始化：
    ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.1-1.jpg)
-   作为结构体字面量初始化：
+- 作为结构体字面量初始化：
    ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.1-2.jpg)
+- PS：T{}是不是比&T{}节省一个指针大小的内存？
