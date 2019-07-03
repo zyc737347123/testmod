@@ -43,7 +43,7 @@
 - 切片是左闭右开的
 - 如果 s2 是一个 slice，你可以将 s2 向后移动一位 `s2 = s2[1:]`，但是末尾没有移动。切片只能向后移动，`s2 = s2[-1:]`会导致编译错误。切片不能被重新分片以获取数组的前一个元素
 - 仅对访问下标时，*寻址运算符允许不写！
-- 修改变什么就传什么，想改数组就传切片(数组的引用==指针)；想改切片，就传切片的指针
+- **修改变什么就传什么，想改数组就传切片(数组的引用<=>指针)；想改切片，就传切片的指针**
 
 ### 切片的追加和复制
 
@@ -77,9 +77,25 @@
   mp2 := make(map[int]*[]int) // 用于修改切片本身
   ```
 
+- 再解释一下，第一种方式是增加一个对切片相关数组的引用；第二种方式是保存切片(指针)本身；所以第一种情况下，原来的那个切片指向新数组后(例如append)，还会指向原来的数组；第二种会指向最新的那个数组
+
 ### 测试键值对是否存在
 
 - `val1, isPresent = map1[key1]` isPresent 返回一个 bool 值：如果 key1 存在于 map1，val1 就是 key1 对应的 value 值，并且 isPresent为true；如果 key1 不存在，val1 就是一个空值，并且 isPresent 会返回 false
 - 从 map1 中删除 key1：直接 `delete(map1, key1)` 
 
 ### map类型的切片
+
+- 假设我们想获取一个 map 类型的切片，我们必须使用两次 `make()` 函数，第一次分配切片，第二次分配 切片中每个 map 元素
+
+  ```go
+  items := make([]map[int]int, 5)
+  for i:= range items {
+  		items[i] = make(map[int]int, 1) // 真正分配了map的内存，而且记录在切片中
+  		items[i][1] = 2
+  }
+  ```
+
+### map的排序
+- map 默认是无序的，不管是按照 key 还是按照 value 默认都不排序。如果你想为 map 排序，需要将 key（或者 value）拷贝到一个切片，再对切片排序，然后可以使用切片的 for-range 方法打印出所有的 key 和 value
+- [示例](https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/08.5.md)
