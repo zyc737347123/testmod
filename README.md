@@ -1,3 +1,5 @@
+
+
 # GO学习笔记
 
 
@@ -99,3 +101,29 @@
 ### map的排序
 - map 默认是无序的，不管是按照 key 还是按照 value 默认都不排序。如果你想为 map 排序，需要将 key（或者 value）拷贝到一个切片，再对切片排序，然后可以使用切片的 for-range 方法打印出所有的 key 和 value
 - [示例](https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/08.5.md)
+
+## Go的struct
+
+### struct的定义
+
+```go
+var t T // t是结构体的一个实例
+t := new(T) // t是指向一个结构体实例的指针
+t := T{a, b} or t:= T{key:value, key:value} // t是结构体的一个实例
+t := &T{a, b} // t是指向一个结构体实例的指针
+```
+
+- 结构体类型和字段的命名遵循可见性规则，一个导出的结构体类型中有些字段是导出的，另一些不是，这是可能的
+
+### 结构体的内存布局
+
+Go 语言中，结构体和它所包含的数据在内存中是以连续块的形式存在的，即使结构体中嵌套有其他的结构体，这在性能上带来了很大的优势。不像 Java 中的引用类型，一个对象和它里面包含的对象可能会在不同的内存空间中，这点和 Go 语言中的指针很像。下面的例子清晰地说明了这些情况：
+
+```go
+type Rect1 struct {Min, Max Point }
+type Rect2 struct {Min, Max *Point }
+```
+![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.2.jpg)
+
+### 递归结构体
+- go的结构体字段类型可以是自身的指针（方便实现链表或二叉树）
