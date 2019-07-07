@@ -284,3 +284,20 @@ right := matrix.NewMatrix(...)  // 实例化 matrix 的唯一方式
 runtime.SetFinalizer(obj, func(obj *typeObj))
 ```
 func(obj *typeObj) 需要一个 typeObj 类型的指针参数 obj，特殊操作会在它上面执行。func 也可以是一个匿名函数。在对象被 GC 进程选中并从内存中移除以前，SetFinalizer 都不会执行，即使程序正常结束或者发生错误
+
+## Go的接口
+- 接口方法的接受者是指针类型，那么必须用指针变量转换为接口；如果接受者是值类型，则没有限制，[例子](https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/11.6.md)
+- 指针方法可以通过指针调用
+- 值方法可以通过值调用
+- 接收者是值的方法可以通过指针调用，**因为指针会首先被解引用**
+- 接收者是指针的方法不可以通过值调用，**因为存储在接口中的值没有地址**
+- 将一个值赋值给一个接口时，编译器会确保所有可能的接口方法都可以在此值上被调用，因此不 正确的赋值在编译期就会失败
+```go
+  cannot use q (type Square) as type Shaper in array or slice literal:
+          Square does not implement Shaper (Area method has pointer receiver)
+```
+- 一个接口可以包含一个或多个其他的接口，这相当于直接将这些内嵌接口的方法列举在外层接口中一样
+- Go 语言规范定义了接口方法集的调用规则：
+  - 类型 *T 的可调用方法集包含接受者为 *T 或 T 的所有方法集
+  - 类型 T 的可调用方法集包含接受者为 T 的所有方法
+  - 类型 T 的可调用方法集不包含接受者为 *T 的方法
