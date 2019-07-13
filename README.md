@@ -33,19 +33,19 @@
 
 ### new的语法糖--字面量初始化 
 - 使用 new 初始化：
-   ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.1-1.jpg)
+![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.1-1.jpg)
 - 作为结构体字面量初始化：
-   ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.1-2.jpg)
+![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/eBook/images/10.1_fig10.1-2.jpg)
 - PS：T{}是不是比&T{}节省一个指针大小的内存？
 
 ## Go的数组和切片
 ### 数组
 - Go 语言中的数组是一种**值类型**（不像 C/C++ 中是指向首元素的指针），这样的结果就是当把一个数组赋值给另一个时，会发生一次数组内存的拷贝操作，两个数组间是独立的两个值
 - 在Go中将如果想按指针传递数组，有两种方式传递**数组的指针，传递数组的切片**。一般选择传递数组的切片，因为传递数组的指针，必须指明数组的大小，有很大的局限性
-   ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/images/7.1_fig7.1.png)
+![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/images/7.1_fig7.1.png)
 ### 切片
 - 切片（slice）是对数组一个连续片段的引用（该数组我们称之为**相关数组，通常是匿名的**），所以切片是一个引用类型，切片在内存中的组织方式实际上是一个有 3 个域的结构体：指向相关数组的指针，切片长度以及切片容量。下图给出了一个长度为 2，容量为 4 的切片y
-   ![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/images/7.2_fig7.2.png)
+![](https://raw.githubusercontent.com/Unknwon/the-way-to-go_ZH_CN/master/images/7.2_fig7.2.png)
 - 切片是左闭右开的
 - 如果 s2 是一个 slice，你可以将 s2 向后移动一位 `s2 = s2[1:]`，但是末尾没有移动。切片只能向后移动，`s2 = s2[-1:]`会导致编译错误。切片不能被重新分片以获取数组的前一个元素
 - 仅对访问下标时，*寻址运算符允许不写！
