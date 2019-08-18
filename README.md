@@ -1,15 +1,7 @@
-
-
-
-
-
-
 # Go学习笔记
-
 
 ## 项目代码结构方案
 在学习阶段先以GOPATH组织代码结构，在正式开始项目后采用go module组织代码结构
-
 
 ## Go module踩坑记录
 - [go module使用介绍](https://roberto.selbach.ca/intro-to-go-modules/)，好学易懂
